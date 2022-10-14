@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/plugins/pca_drs_spreadsheet_checks" >
+        <file>icons/PCA_DRS_checks_dupl_context_icon.png</file>
+		<file>icons/PCA_DRS_checks_missing_icon.png</file>
+		<file>icons/PCA_DRS_checks_main_icon.png</file>
+    </qresource>
+</RCC>

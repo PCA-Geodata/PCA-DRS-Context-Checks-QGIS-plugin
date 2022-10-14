@@ -1,0 +1,47 @@
+# This file contains metadata for your plugin.
+
+# This file should be included when you package your plugin.# Mandatory items:
+
+[general]
+name=PCA DRS Spreadsheet Checks
+qgisMinimumVersion=3.0
+description=This plugin provides a quick access to a array of queries built for check the PCA DRS Spreadsheet during the post-excavation phase.
+author=Valerio Pinna (Pre-Construct Archaeology)
+email=vpinna@pre-construct.com
+
+about=This plugin provides a quick access to a array of queries built for check the PCA DRS Spreadsheet during the post-excavation phase.
+			It is a component of the new DRS/GIS integrated data management system, and provides a set of tool that help definings duplicated context numbers or recorded features not matching the site plan.
+version=1.0
+tracker=https://github.com/PCA-Geodata/PCA-DRS-Spreadsheet-Checks-QGIS-plugin/issues
+repository=https://github.com/PCA-Geodata/PCA-DRS-Spreadsheet-Checks-QGIS-plugin
+# End of mandatory metadata
+
+# Recommended items:
+
+hasProcessingProvider=no
+# Uncomment the following line and add your changelog:
+# changelog=
+
+# Tags are comma separated with spaces allowed
+tags=PCA, DRS, spreadsheet, postexcavation, checks, duplicates
+
+homepage=https://github.com/PCA-Geodata/PCA-DRS-Spreadsheet-Checks-QGIS-plugin
+category=Plugins
+icon=icons/PCA_DRS_checks_main_icon.png
+# experimental flag
+experimental=False
+
+# deprecated flag (applies to the whole plugin, not just a single version)
+deprecated=False
+
+# Since QGIS 3.8, a comma separated list of plugins to be installed
+# (or upgraded) can be specified.
+# Check the documentation for more information.
+# plugin_dependencies=
+
+Category of the plugin: Raster, Vector, Database or Web
+# category=
+
+# If the plugin can run on QGIS Server.
+server=False
+
