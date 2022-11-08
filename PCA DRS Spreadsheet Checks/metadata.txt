@@ -11,7 +11,7 @@ email=vpinna@pre-construct.com
 
 about=This plugin provides a quick access to a array of queries built for check the PCA DRS Spreadsheet during the post-excavation phase.
 			It is a component of the new DRS/GIS integrated data management system, and provides a set of tool that help definings duplicated context numbers or recorded features not matching the site plan.
-version=1.0
+version=1.03
 tracker=https://github.com/PCA-Geodata/PCA-DRS-Spreadsheet-Checks-QGIS-plugin/issues
 repository=https://github.com/PCA-Geodata/PCA-DRS-Spreadsheet-Checks-QGIS-plugin
 # End of mandatory metadata
@@ -20,7 +20,9 @@ repository=https://github.com/PCA-Geodata/PCA-DRS-Spreadsheet-Checks-QGIS-plugin
 
 hasProcessingProvider=no
 # Uncomment the following line and add your changelog:
-# changelog=
+changelog=	1.03 - Exception and message for missing tables on the project
+				 - Error message for NULL values on COntext field
+			1.01 - Added button for missing context numbers on DRS
 
 # Tags are comma separated with spaces allowed
 tags=PCA, DRS, spreadsheet, postexcavation, checks, duplicates

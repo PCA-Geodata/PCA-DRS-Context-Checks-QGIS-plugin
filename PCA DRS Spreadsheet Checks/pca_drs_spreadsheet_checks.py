@@ -28,6 +28,7 @@ from qgis.PyQt.QtWidgets import QAction,QMessageBox, QToolBar, QLabel
 from qgis.core import *
 from qgis.gui import QgsMapLayerComboBox
 from qgis.utils import iface
+import win32clipboard
 
 
 
@@ -35,6 +36,8 @@ from qgis.utils import iface
 from .resources import *
 # Import the code for the dialog
 from .pca_drs_spreadsheet_checks_dialog import PCA_DRS_Spreadsheet_checksDialog
+from .pca_drs_spreadsheet_checks_missing_context_DRS_dialog import PCA_DRS_Spreadsheet_checks_missing_context_DRS 
+
 import os.path
 
 
@@ -75,7 +78,7 @@ class PCA_DRS_Spreadsheet_checks:
                                      # "background-color: pink;"
                                      # "}")
 
-
+        self.dlgtool1 = PCA_DRS_Spreadsheet_checks_missing_context_DRS()
 
         # Declare instance attributes
         self.actions = []
@@ -218,6 +221,18 @@ class PCA_DRS_Spreadsheet_checks:
 
         # will be set False in run()
         self.first_start = True
+        
+        # icon for missing context numbers on DRS
+        icon_path = ':/plugins/pca_drs_spreadsheet_checks/icons/PCA_DRS_checks_missing_context_icon.png'
+        self.add_action(
+            icon_path,
+            text=self.tr(u'Generate a list of the missing context number on DRS'),
+            callback=self.missing_context_on_DRS,
+            parent=self.iface.mainWindow())
+
+        # will be set False in run()
+        self.first_start = True
+       
     
 
 
@@ -228,7 +243,6 @@ class PCA_DRS_Spreadsheet_checks:
                 self.tr(u'&PCA DRS Spreadsheet Checks'),
                 action)
             self.iface.removeToolBarIcon(action)
-            
             
     def open_show_attribute_table(self):
         
@@ -247,43 +261,125 @@ class PCA_DRS_Spreadsheet_checks:
 
     def check_duplicates(self):
         layer = self.projCombo2.currentLayer()
+        if layer is None:
+                QMessageBox.about(None,'PCA DRS Checks', '''The project doesn't contain any valid DRS table.''')
+                return self.dontdonothing()
+        else: 
+            e = ''' 
+            count( "Context" , "Context" ) > 1
+            '''
+            layer.selectByExpression(e)
+            return self.open_show_attribute_table()
         
-        e = ''' 
-        count( "Context" , "Context" ) > 1
-        '''
-        layer.selectByExpression(e)
-        return self.open_show_attribute_table()
-        
-    
     def check_missing_data_on_plan(self):
-    
         layer = self.projCombo2.currentLayer()
         
-        e = ''' 
-        Cut = 
-        array_to_string(
-        aggregate( 
-        layer:='Interventions',
-        aggregate:='array_agg',
-        expression:="context_no",
-        filter:=  "context_no" = 
-        attribute(@parent,'Cut')
-        )
-        ) = 1
-        '''
-        layer.selectByExpression(e)
-        layer.invertSelection()
-        return self.open_show_attribute_table()
-    
-    
+        if layer is None:
+                QMessageBox.about(None,'PCA DRS Checks', '''The project doesn't contain any valid DRS table.''')
+                return self.dontdonothing()
+        else: 
+            e = ''' 
+            Cut = 
+            array_to_string(
+            aggregate( 
+            layer:='Interventions',
+            aggregate:='array_agg',
+            expression:="context_no",
+            filter:=  "context_no" = 
+            attribute(@parent,'Cut')
+            )
+            ) = 1
+            '''
+            layer.selectByExpression(e)
+            layer.invertSelection()
+            return self.open_show_attribute_table()
+        
+    def update_missing_context_list(self):
+        min_context_no = self.dlgtool1.first_context_spinBox.value()
+        max_context_no = self.dlgtool1.last_context_spinBox.value()
+        numbers = []
+        
+        for u in range(min_context_no, (max_context_no+1)):
+            numbers.append(u)
 
+        layer = self.projCombo2.currentLayer()
+
+        context_list = []
+        for f in layer.getFeatures():
+            context_list.append(int(f['Context']))
+
+        missing_list = []
+        for c in numbers:
+            if c not in context_list:
+                missing_list.append(c)
+                
+        print ('missing are: ', missing_list)
+        missing_list_as_string = ', ' .join(str(e) for e in missing_list)
+        
+        self.dlgtool1.result_plainTextEdit.setPlainText(missing_list_as_string)
+        
+    def copy_to_clipboard(self):
+         
+        missing_list_final = self.dlgtool1.result_plainTextEdit.toPlainText()                
+                            
+        win32clipboard.OpenClipboard()
+        win32clipboard.EmptyClipboard()
+        win32clipboard.SetClipboardText(missing_list_final)
+        win32clipboard.CloseClipboard()
+        
+    def missing_context_on_DRS(self):
+        layer = self.projCombo2.currentLayer()
+        if layer is None:
+                QMessageBox.about(None,'PCA DRS Checks', '''The project doesn't contain any valid DRS table.''')
+                return self.dontdonothing()
+        else: 
+            context_list = []
+            for f in layer.getFeatures():           
+                context_value = f['Context']
+                if context_value == NULL:
+                    context_to_add = 'EMPTY'
+                if context_value != NULL:
+                    context_to_add = context_value
+                
+                context_list.append(context_to_add)
+            
+                    
+                
+                if 'EMPTY' in context_list:
+                    QMessageBox.warning(None,'PCA DRS Checks', 'The DRS table contains one o more empty Context Number values (e.g., NULL). Please fix this errors before re-run the tool.') 
+                    
+                    e = ''' 
+                    "Context" is NULL
+                    '''
+                    layer.selectByExpression(e)
+                    return self.open_show_attribute_table()
+                    
+                if 'EMPTY' not in context_list:
+                    print(context_list)
+
+                    min_context = int(min(context_list))
+                    max_context = int(max(context_list))
+                    
+                    
+                    
+                    self.dlgtool1.first_context_spinBox.setValue(min_context)
+                    self.dlgtool1.last_context_spinBox.setValue(max_context)
+        
+        
+            # show the dialog
+            self.dlgtool1.show()
+            # Run the dialog event loop
+            
+            self.dlgtool1.check_missing_pushButton.clicked.connect(self.update_missing_context_list)
+            
+            self.dlgtool1.copy_clipboard_pushButton.clicked.connect(self.copy_to_clipboard)
+            result = self.dlgtool1.exec_()
+        # See if OK was pressed
+        if result:
+            return self.dontdonothing()
     
-    
-    
-    
-    
-    
-    
+              
+        
     
     
     
