@@ -13,7 +13,7 @@ It is a component of the new DRS/GIS integrated data management system.
 
 It provides a dockable panel that allows to run some checks, as missing context sheets, duplicated context numbers and recorded features not matching the site plan.
 
-<img src="images/dockpanel.png" width="400" height="150"/>
+<img src="images/dockpanel.png" width="500"/>
 
 
 
