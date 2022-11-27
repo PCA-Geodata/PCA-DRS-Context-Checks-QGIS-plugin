@@ -1,12 +1,21 @@
 
 
 
-<h1>PCA DRS Spreadsheet Checks QGIS Plugin</h1>
+<h1>PCA DRS Context Checks QGIS Plugin</h1>
 
-<img src="PCA DRS Spreadsheet Checks/icons/PCA_DRS_checks_main_icon.png" width="150" height="150"/>
+<img src="PCA DRS Context Checks/icons/PCA_DRS_context_checks_icon.png" width="150" height="150"/>
 
-This plugin provides a quick access to a array of queries built for check the PCA DRS Spreadsheet during the post-excavation phase.
+This plugin provides a quick access to an array of queries built for check the PCA DRS Context spreadsheet during the post-excavation phase.
 
-<img src="images/dockpanel.png" />
+
 	
-It is a component of the new DRS/GIS integrated data management system, and provides a set of tool that help definings duplicated context numbers or recorded features not matching the site plan.
+It is a component of the new DRS/GIS integrated data management system. 
+
+It provides a dockable panel that allows to run some checks, as missing context sheets, duplicated context numbers and recorded features not matching the site plan.
+
+<img src="images/dockpanel.png" width="400" height="150"/>
+
+
+
+
+
