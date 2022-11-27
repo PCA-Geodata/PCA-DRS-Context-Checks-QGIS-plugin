@@ -3,33 +3,42 @@
 # This file should be included when you package your plugin.# Mandatory items:
 
 [general]
-name=PCA DRS Spreadsheet Checks
+name=PCA DRS Context Checks
 qgisMinimumVersion=3.0
-description=This plugin provides a quick access to a array of queries built for check the PCA DRS Spreadsheet during the post-excavation phase.
+description=This plugin provides a quick access to an array of queries built for check the PCA DRS Context spreadsheet during the post-excavation phase.
 author=Valerio Pinna (Pre-Construct Archaeology)
 email=vpinna@pre-construct.com
 
-about=This plugin provides a quick access to a array of queries built for check the PCA DRS Spreadsheet during the post-excavation phase.
-			It is a component of the new DRS/GIS integrated data management system, and provides a set of tool that help definings duplicated context numbers or recorded features not matching the site plan.
-version=1.03
-tracker=https://github.com/PCA-Geodata/PCA-DRS-Spreadsheet-Checks-QGIS-plugin/issues
-repository=https://github.com/PCA-Geodata/PCA-DRS-Spreadsheet-Checks-QGIS-plugin
+about=This plugin provides a quick access to an array of queries built for check the PCA DRS Context spreadsheet during the post-excavation phase.
+ It is a component of the new DRS/GIS integrated data management system. 
+ It provides a dockable panel that allows to run some checks, as missing context sheets, duplicated context numbers and recorded features not matching the site plan.
+
+version=2.0
+tracker=https://github.com/PCA-Geodata/PCA-DRS-Context-Checks-QGIS-plugin/issues
+repository=https://github.com/PCA-Geodata/PCA-DRS-Context-Checks-QGIS-plugin
 # End of mandatory metadata
 
 # Recommended items:
 
 hasProcessingProvider=no
 # Uncomment the following line and add your changelog:
-changelog=	1.03 - Exception and message for missing tables on the project
-				 - Error message for NULL values on COntext field
-			1.01 - Added button for missing context numbers on DRS
+changelog= 2.0
+ - New plugin version that replace the previous PCA DRS Spreadsheet Checks
+ - Dockable panel
+ - Added text panels for Duplicated context and Cuts not in plan
+ - New icon and new toolbar 
+ <p>1.03 
+ - Exception and message for missing tables on the project
+ - Error message for NULL values on COntext field
+ <p>1.01
+ - Added button for missing context numbers on DRS
 
 # Tags are comma separated with spaces allowed
 tags=PCA, DRS, spreadsheet, postexcavation, checks, duplicates
 
-homepage=https://github.com/PCA-Geodata/PCA-DRS-Spreadsheet-Checks-QGIS-plugin
+homepage=https://github.com/PCA-Geodata/PCA-DRS-Context-Checks-QGIS-plugin
 category=Plugins
-icon=icons/PCA_DRS_checks_main_icon.png
+icon=icons/PCA_DRS_context_checks_icon.png
 # experimental flag
 experimental=False
 
