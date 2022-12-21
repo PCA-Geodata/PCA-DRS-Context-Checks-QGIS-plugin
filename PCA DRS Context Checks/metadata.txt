@@ -13,7 +13,7 @@ about=This plugin provides a quick access to an array of queries built for check
  It is a component of the new DRS/GIS integrated data management system. 
  It provides a dockable panel that allows to run some checks, as missing context sheets, duplicated context numbers and recorded features not matching the site plan.
 
-version=2.0
+version=2.1
 tracker=https://github.com/PCA-Geodata/PCA-DRS-Context-Checks-QGIS-plugin/issues
 repository=https://github.com/PCA-Geodata/PCA-DRS-Context-Checks-QGIS-plugin
 # End of mandatory metadata
