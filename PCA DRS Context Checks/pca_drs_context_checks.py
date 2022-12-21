@@ -275,7 +275,7 @@ class PCA_DRS_Context_Checks:
         self.update_duplicated_list()
         self.update_missing_context_list()
         self.cuts_not_in_plan()
-        
+        self.update_wrong_parent_numbers()
         
     def natural_sort(self, l): 
         convert = lambda text: int(text) if text.isdigit() else text.lower()
@@ -388,6 +388,54 @@ class PCA_DRS_Context_Checks:
         self.dockwidget.missing_context_plainTextEdit.setPlainText(missing_list_as_string)
         self.dockwidget.progressBar.setValue(10)
         
+    def update_wrong_parent_numbers(self):  
+        min_context_no = self.dockwidget.first_context_spinBox.value()
+        max_context_no = self.dockwidget.last_context_spinBox.value()
+        layer = self.dockwidget.DRS_mMapLayerComboBox.currentLayer()
+        numbers = []
+        wrong_cuts_list = []
+        dict = {}
+        
+        for u in range(min_context_no, (max_context_no+1)):
+            numbers.append(u)
+
+        for f in layer.getFeatures():
+            if int(f['Context']) in numbers:
+                key = f['Context']
+                dict.setdefault(key, []).append(f['Type'])
+
+        #cuts check
+        for n in layer.getFeatures():
+                if int(n['Context']) in numbers:
+                    try:
+                        dict[n['Cut']]
+                    except (KeyError):
+                        print('error')
+                    else:
+                        if dict[n['Cut']] != ['Cut']:
+                            if dict[n['Cut']] != ['VOID']:
+                                if dict[n['Cut']] != ['Layer']:
+                                    string = '{} is a {}'.format(n['Cut'], ''.join(dict[n['Cut']]))
+                                    wrong_cuts_list.append(string)
+        wrong_cuts_list.append('\n\n')
+        
+        #layer checks
+        for n in layer.getFeatures():
+            
+                if n['Type'] == 'Layer':
+                    if int(n['Context']) in numbers:
+                        if n['Context'] != n['Cut']:
+                            string = 'Layer {} has a wrong "Cut/parent" number'.format(n['Context'])
+                            wrong_cuts_list.append(string)        
+
+        wrong_cuts_list_string = ', '.join(wrong_cuts_list)
+
+
+
+        
+        self.dockwidget.wrong_parent_numbers_plainTextEdit.setPlainText(wrong_cuts_list_string)
+        self.dockwidget.progressBar.setValue(20)
+
     
     def cuts_not_in_plan(self):
         try:
@@ -449,7 +497,12 @@ class PCA_DRS_Context_Checks:
         self.dockwidget.missing_context_plainTextEdit.setPlainText('')
         self.dockwidget.duplicated_plainTextEdit.setPlainText('')
         self.dockwidget.not_on_map_plainTextEdit.setPlainText('')
-        
+        self.dockwidget.wrong_parent_numbers_plainTextEdit.setPlainText('')
   
     def dontdonothing(self):
                 pass
+                
+                
+                
+                
+                

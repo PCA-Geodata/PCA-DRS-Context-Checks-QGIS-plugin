@@ -22,7 +22,9 @@ repository=https://github.com/PCA-Geodata/PCA-DRS-Context-Checks-QGIS-plugin
 
 hasProcessingProvider=no
 # Uncomment the following line and add your changelog:
-changelog= 2.0
+changelog= 2.1
+ - Added a new check for wrong Cut/parent numbers
+ <p>.2.0
  - New plugin version that replace the previous PCA DRS Spreadsheet Checks
  - Dockable panel
  - Added text panels for Duplicated context and Cuts not in plan
